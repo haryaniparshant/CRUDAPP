@@ -6,7 +6,7 @@ import {Feather} from '@expo/vector-icons';
 
 export default function IndexScreen () {
 
-    const {state , addBlogPost} = useContext(BlogContext);
+    const {state , addBlogPost, deleteBlogPost} = useContext(BlogContext);
 
     return (<View>
         <Button title="Add Post" onPress={() => addBlogPost()}/>
@@ -15,11 +15,11 @@ export default function IndexScreen () {
         renderItem={({item}) =>{
             return <View style={styles.row}>
                 <Text style={styles.title}>{item.title} - {item.id}</Text>
-                <TouchableOpacity onPress={() => console.log(item.id)}>
+                <TouchableOpacity onPress={() => deleteBlogPost(item.id)}>
                     <Feather style={styles.icon} name="trash"/>
                 </TouchableOpacity>
             </View>
-        }
+        } 
     }
         />
     </View>);
