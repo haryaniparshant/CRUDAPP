@@ -1,12 +1,23 @@
-import React, { useContext } from "react";
-import { View, StyleSheet, Text, Button, TouchableOpacity} from "react-native";
+import React, { useContext, useEffect } from "react";
+import { View, StyleSheet, Text, TouchableOpacity} from "react-native";
 import { FlatList } from "react-native-gesture-handler";
-import {Context as BlogContext, Provider} from "../context/BlogContext";
+import {Context as BlogContext} from "../context/BlogContext";
 import {Feather} from '@expo/vector-icons';
 
 export default function IndexScreen ({navigation}) {
 
-    const {state , addBlogPost, deleteBlogPost} = useContext(BlogContext);
+    const {state , deleteBlogPost, getBlogPosts} = useContext(BlogContext);
+
+    useEffect(() =>{
+      getBlogPosts();
+      const listener = navigation.addListener('didFocus', () => {
+        getBlogPosts();
+      });
+
+      return () => {
+        listener.remove();
+      }
+    },[]);
 
     return (<View>
         <FlatList data={state}
